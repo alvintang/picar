@@ -10,3 +10,7 @@ def hello_world():
 @app.route('/hello/<name>')
 def hello(name=None):
     return render_template('hello.html', name=name)
+
+@app.route('/controller/')
+def controller(name=None):
+    return render_template('rc.html')

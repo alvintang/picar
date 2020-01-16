@@ -1,0 +1,60 @@
+{% extends "index.html" %}
+{% block body %}
+<button id="f">Forward</button>
+<br>
+<button id="b">Backward</button>
+
+<br>
+<div id="status">
+</div>
+{% endblock %}
+
+{% block head_script %}
+<script>
+$(document).ready(function(){
+    var timeout; 
+    $("#f").mousedown(function(){
+        $("#status").html("forward")
+        timeout = setInterval( function() {
+            $("#status").html("forward")
+        }, 100);
+
+        return false;
+    });
+
+    $("#f").mouseup( function() {
+        $("#status").html("")
+        clearInterval(timeout)
+        return false;
+    });
+
+    $("#f").mouseout( function() {
+        $("#status").html("")
+        clearInterval(timeout)
+        return false;
+    });
+
+    $("#b").mousedown(function(){
+        $("#status").html("backward")
+        timeout = setInterval( function() {
+            $("#status").html("backward")
+        }, 100);
+
+        return false;
+    });
+
+    $("#b").mouseup( function() {
+        $("#status").html("")
+        clearInterval(timeout)
+        return false;
+    });
+
+    $("#b").mouseout( function() {
+        $("#status").html("")
+        clearInterval(timeout)
+        return false;
+    });
+});
+</script>
+{% endblock %}
+
