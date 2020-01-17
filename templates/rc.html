@@ -1,8 +1,8 @@
 {% extends "index.html" %}
 {% block body %}
-<button id="f">Forward</button>
+<button id="f" class="control-button">Forward</button>
 <br>
-<button id="b">Backward</button>
+<button id="b" class="control-button">Backward</button>
 
 <br>
 <div id="status">
@@ -10,13 +10,32 @@
 {% endblock %}
 
 {% block head_script %}
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+
 <script>
+function postDirection(direction) {
+        $("#status").html(direction)
+
+	$.ajax({
+		type: "POST",
+		url: "/controller/"+direction,
+		data: "",
+		success: function(data, status) {
+    			console.log("Data: " + data + "\nStatus: " + status);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+        		console.log("Error, status = " + textStatus + ", " +
+              			"error thrown: " + errorThrown);
+		}
+	});
+}
 $(document).ready(function(){
     var timeout; 
     $("#f").mousedown(function(){
-        $("#status").html("forward")
+	postDirection("forward")
+
         timeout = setInterval( function() {
-            $("#status").html("forward")
+		postDirection("forward")
         }, 100);
 
         return false;
@@ -25,19 +44,21 @@ $(document).ready(function(){
     $("#f").mouseup( function() {
         $("#status").html("")
         clearInterval(timeout)
+	postDirection("off")
         return false;
     });
 
     $("#f").mouseout( function() {
         $("#status").html("")
         clearInterval(timeout)
+	postDirection("off")
         return false;
     });
 
     $("#b").mousedown(function(){
-        $("#status").html("backward")
+	postDirection("backward")
         timeout = setInterval( function() {
-            $("#status").html("backward")
+		postDirection("backward")
         }, 100);
 
         return false;
@@ -46,12 +67,14 @@ $(document).ready(function(){
     $("#b").mouseup( function() {
         $("#status").html("")
         clearInterval(timeout)
+	postDirection("off")
         return false;
     });
 
     $("#b").mouseout( function() {
         $("#status").html("")
         clearInterval(timeout)
+	postDirection("off")
         return false;
     });
 });
