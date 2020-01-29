@@ -8,6 +8,8 @@ import time
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(18, GPIO.OUT)
+GPIO.setup(14, GPIO.OUT)
+GPIO.setup(15, GPIO.OUT)
 
 app = Flask(__name__)
 
@@ -29,9 +31,15 @@ def controller_dir(direction=None):
     print(direction)
     if direction == "forward":
         GPIO.output(18, GPIO.HIGH)
+        GPIO.output(15, GPIO.HIGH)
+        GPIO.output(14, GPIO.LOW)
     elif direction == "backward":
         GPIO.output(18, GPIO.HIGH)
+        GPIO.output(14, GPIO.HIGH)
+        GPIO.output(15, GPIO.LOW)
     elif direction == "off":
         GPIO.output(18, GPIO.LOW)
+        GPIO.output(15, GPIO.LOW)
+        GPIO.output(14, GPIO.LOW)
 
     return Response("{\"direction\":\""+direction+"\"}", status=200, mimetype='application/json') 
