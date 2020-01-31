@@ -1,8 +1,12 @@
 {% extends "index.html" %}
 {% block body %}
+<button id="fl" class="control-button">Forward-Left</button>
 <button id="f" class="control-button">Forward</button>
+<button id="fr" class="control-button">Forward-Right</button>
 <br>
+<button id="bl" class="control-button">Backward-Left</button>
 <button id="b" class="control-button">Backward</button>
+<button id="br" class="control-button">Backward-Right</button>
 
 <br>
 <div id="status">
@@ -14,7 +18,7 @@
 
 <script>
 function postDirection(direction) {
-        $("#status").html(direction)
+    $("#status").html(direction)
 
 	$.ajax({
 		type: "POST",
@@ -29,54 +33,40 @@ function postDirection(direction) {
 		}
 	});
 }
-$(document).ready(function(){
+function control(direction) {
     var timeout; 
-    $("#f").mousedown(function(){
-	postDirection("forward")
+    $("#"+direction).mousedown(function(){
+    	postDirection(direction)
 
         timeout = setInterval( function() {
-		postDirection("forward")
+		postDirection(direction)
         }, 100);
 
         return false;
     });
 
-    $("#f").mouseup( function() {
+    $("#"+direction).mouseup( function() {
         $("#status").html("")
         clearInterval(timeout)
-	postDirection("off")
+    	postDirection("off")
         return false;
     });
 
-    $("#f").mouseout( function() {
+    $("#"+direction).mouseout( function() {
         $("#status").html("")
         clearInterval(timeout)
-	postDirection("off")
+    	postDirection("off")
         return false;
     });
+}
 
-    $("#b").mousedown(function(){
-	postDirection("backward")
-        timeout = setInterval( function() {
-		postDirection("backward")
-        }, 100);
-
-        return false;
-    });
-
-    $("#b").mouseup( function() {
-        $("#status").html("")
-        clearInterval(timeout)
-	postDirection("off")
-        return false;
-    });
-
-    $("#b").mouseout( function() {
-        $("#status").html("")
-        clearInterval(timeout)
-	postDirection("off")
-        return false;
-    });
+$(document).ready(function(){
+    control("f")
+    control("fl")
+    control("fr")
+    control("b")
+    control("bl")
+    control("br")
 });
 </script>
 {% endblock %}
